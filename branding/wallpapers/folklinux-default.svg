@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Folk Linux varsayılan duvar kağıdı">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="45%" stop-color="#111c2e"/>
+      <stop offset="100%" stop-color="#0a0f18"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="72%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.28"/>
+      <stop offset="55%" stop-color="#22c55e" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="warm" cx="18%" cy="82%" r="45%">
+      <stop offset="0%" stop-color="#f97316" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#f97316" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="72" height="72" patternUnits="userSpaceOnUse">
+      <path d="M72 0H0V72" fill="none" stroke="#ffffff" stroke-opacity="0.035" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#glow)"/>
+  <rect width="1920" height="1080" fill="url(#warm)"/>
+  <rect width="1920" height="1080" fill="url(#grid)"/>
+
+  <!-- Soyut dalga çizgileri -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M-100 780 C 400 640, 760 900, 1200 700 S 1800 520, 2020 640"
+          stroke="#22c55e" stroke-opacity="0.22" stroke-width="3"/>
+    <path d="M-100 830 C 420 700, 780 950, 1230 760 S 1830 590, 2020 700"
+          stroke="#22c55e" stroke-opacity="0.14" stroke-width="2"/>
+    <path d="M-100 880 C 450 760, 810 1000, 1260 820 S 1860 660, 2020 760"
+          stroke="#f97316" stroke-opacity="0.12" stroke-width="2"/>
+  </g>
+
+  <!-- Merkezdeki F/alev silüeti (büyük, düşük opaklık) -->
+  <g transform="translate(1240 210) scale(1.15)" opacity="0.10">
+    <path d="M196 104c28 18 40 48 34 82-5 30-24 52-24 52 22-8 38-24 46-44 10 28 6 60-12 84-20 27-54 42-90 42-66 0-112-48-112-112 0-52 34-96 84-108-8 22-4 44 12 56 4-42 26-66 62-52z" fill="#86efac"/>
+  </g>
+
+  <!-- Marka metni -->
+  <g transform="translate(120 840)">
+    <text x="0" y="0" font-family="DejaVu Sans, sans-serif" font-size="96" font-weight="700"
+          letter-spacing="18" fill="#f9fafb" opacity="0.94">FOLK</text>
+    <text x="4" y="46" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="500"
+          letter-spacing="14" fill="#9ca3af" opacity="0.85">LINUX</text>
+    <text x="4" y="92" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="400"
+          letter-spacing="4" fill="#6b7280">Arch-based · KDE Plasma · Oyun odaklı</text>
+  </g>
+</svg>

@@ -1,0 +1,14 @@
+# Tüm metin dosyalarını Linux satır sonuyla (LF) sakla
+# Aksi halde GitHub Actions'ta bash scriptleri bozulur: /usr/bin/env bash\r
+* text=auto eol=lf
+
+# İkili dosyalar (şimdilik yok, ama ileride PNG/logo eklenebilir)
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.gz binary
+*.xz binary
+*.zst binary

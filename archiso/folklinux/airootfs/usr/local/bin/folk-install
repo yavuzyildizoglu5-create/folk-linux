@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Folk Linux — Kurulum sonrası hızlı ayar aracı
+# Kullanım: folk-install [komut]
+set -euo pipefail
+
+RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; NC='\033[0m'
+log() { echo -e "${GREEN}[FOLK]${NC} $*"; }
+err() { echo -e "${RED}[HATA]${NC} $*" >&2; exit 1; }
+
+cmd_gaming() {
+    log "Oyun paketleri kuruluyor (Faz 2 önizlemesi)..."
+    sudo pacman -S --needed steam lib32-mesa vulkan-radeon lib32-vulkan-radeon \
+        gamemode lib32-gamemode mangohud lib32-mangohud || err "Paket kurulumu başarısız."
+    log "✓ Oyun katmanı kuruldu. (Tam optimizasyon Faz 2'de)"
+}
+
+cmd_update() {
+    log "Sistem güncelleniyor..."
+    sudo pacman -Syu
+}
+
+cmd_info() {
+    echo "Folk Linux — Sistem Bilgisi"
+    echo "────────────────────────────"
+    fastfetch 2>/dev/null || neofetch 2>/dev/null || uname -a
+    echo "────────────────────────────"
+    echo "Dokümantasyon: https://github.com/folk-linux"
+}
+
+case "${1:-info}" in
+    gaming)  cmd_gaming ;;
+    update)  cmd_update ;;
+    info)    cmd_info ;;
+    *)
+        echo "Kullanım: folk-install {gaming|update|info}"
+        echo "  gaming  — Oyun paketlerini kur (Faz 2 önizlemesi)"
+        echo "  update  — Sistemi güncelle"
+        echo "  info    — Sistem bilgisini göster"
+        ;;
+esac

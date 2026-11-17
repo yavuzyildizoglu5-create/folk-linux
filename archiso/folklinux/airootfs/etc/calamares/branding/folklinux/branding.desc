@@ -1,0 +1,23 @@
+# Calamares branding — Folk Linux
+
+[branding]
+name=Folk Linux
+version=1.0
+productName=Folk Linux
+shortProductName=Folk
+versionName=Folk Linux
+shortVersionName=Folk
+
+[branding:welcome]
+showSupportUrl=true
+showKnownIssuesUrl=true
+showReleaseNotesUrl=false
+supportUrl=https://github.com/folk-linux/issues
+knownIssuesUrl=https://github.com/folk-linux/issues
+
+[branding:Partition]
+newPartitionLabel=Folk Linux
+newFileSystem=ext4
+
+[branding:Finished]
+restartButtonText=Folk Linux'i Yeniden Başlat

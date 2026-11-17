@@ -1,0 +1,133 @@
+# Folk Linux — x86_64 paket listesi
+# Her satır bir pacman paketi. Yorum satırları ( # ) yoksayılır.
+# Faz 1: Çekirdek sistem + KDE Plasma + Kurulumcu
+# Faz 2'de oyun paketleri eklenecek (bkz: docs/ROADMAP.md)
+
+# ── Çekirdek sistem ──────────────────────────────────────────────
+base
+base-devel
+linux
+linux-headers
+linux-firmware
+systemd
+systemd-sysvcompat
+
+# ── Bootloader ──────────────────────────────────────────────────
+grub
+efibootmgr
+dosfstools
+mtools
+syslinux
+intel-ucode
+amd-ucode
+
+# ── Ağ ──────────────────────────────────────────────────────────
+networkmanager
+networkmanager-applet
+dhcpcd
+dnsutils
+curl
+wget
+rsync
+
+# ── Depolama / dosya sistemleri ─────────────────────────────────
+btrfs-progs
+xfsprogs
+ntfs-3g
+exfatprogs
+lvm2
+cryptsetup
+mdadm
+
+# ── Terminal / kabuk ────────────────────────────────────────────
+bash
+zsh
+zsh-autosuggestions
+zsh-syntax-highlighting
+fish
+neovim
+nano
+tmux
+less
+man-db
+man-pages
+texinfo
+
+# ── KDE Plasma masaüstü ─────────────────────────────────────────
+plasma            # Plasma meta paketi (plasma-desktop + uygulamalar)
+plasma-wayland-session
+kde-applications-meta
+sddm
+sddm-kcm
+konsole
+dolphin
+kate
+okular
+gwenview
+spectacle
+kcalc
+korganizer
+kmail
+
+# ── Ses ─────────────────────────────────────────────────────────
+pipewire
+pipewire-alsa
+pipewire-pulse
+pipewire-jack
+wireplumber
+alsa-utils
+sof-firmware
+
+# ── Grafik / sürücüler ──────────────────────────────────────────
+mesa
+mesa-utils
+lib32-mesa
+xf86-video-amdgpu
+xf86-video-ati
+xf86-video-intel
+xf86-video-nouveau
+nvidia
+nvidia-utils
+lib32-nvidia-utils
+vulkan-icd-loader
+lib32-vulkan-icd-loader
+
+# ── Kurulumcu ───────────────────────────────────────────────────
+calamares
+squid         # calamares webview için
+mkinitcpio
+
+# ── Fontlar ─────────────────────────────────────────────────────
+ttf-dejavu
+ttf-liberation
+noto-fonts
+noto-fonts-cjk
+noto-fonts-emoji
+ttf-jetbrains-mono
+
+# ── Yardımcı araçlar ────────────────────────────────────────────
+sudo
+archlinux-keyring
+gnupg
+git
+openssh
+htop
+btop
+neofetch
+fastfetch
+lsblk
+smartmontools
+nfs-utils
+cifs-utils
+fuse2
+p7zip
+unrar
+zip
+unzip
+
+# ── Görünüm ─────────────────────────────────────────────────────
+breeze
+breeze-gtk
+kvantum
+papirus-icon-theme
+plymouth

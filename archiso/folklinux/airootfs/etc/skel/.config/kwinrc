@@ -1,0 +1,19 @@
+# kwinrc — Folk Linux pencere yöneticisi ayarları
+
+[Compositing]
+Enabled=true
+Backend=OpenGL
+GLTextureFilter=2
+
+[Effect-Blur]
+BlurStrength=8
+
+[Plugins]
+kwin4_effect_fadeEnabled=true
+kwin4_effect_slidingpopupsEnabled=true
+
+[Windows]
+GeometryTip=false
+
+[ModifierOnlyShortcuts]
+Meta=org.kde.kglobalaccel,/component/kwin,invokeShortcut,Overview

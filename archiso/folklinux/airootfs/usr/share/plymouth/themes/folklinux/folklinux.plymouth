@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Folk Linux
+Description=Folk Linux açılış teması
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/folklinux
+ScriptFile=/usr/share/plymouth/themes/folklinux/folklinux.script

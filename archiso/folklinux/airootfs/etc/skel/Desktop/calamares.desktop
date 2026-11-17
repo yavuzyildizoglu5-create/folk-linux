@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Folk Linux Kurulum
+Name[tr]=Folk Linux Kurulum
+Comment=Folk Linux'i diske kur
+Exec=calamares
+Icon=system-installer
+Terminal=false
+Categories=System;
+StartupNotify=true

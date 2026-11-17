@@ -1,0 +1,8 @@
+# kcminputrc — Folk Linux giriş aygıtı ayarları
+
+[Mouse]
+cursorSize=24
+
+[Keyboard]
+KeyboardModel=pc105
+Layout=tr

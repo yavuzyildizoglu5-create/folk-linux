@@ -1,0 +1,82 @@
+name: Folk Linux ISO Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      edition:
+        description: 'ISO sürüm etiketi'
+        required: false
+        default: 'rolling'
+
+env:
+  PROFILE: folklinux
+  ISO_DIR: output
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Depoyu çek
+        uses: actions/checkout@v4
+
+      - name: Arch Linux kurulum ortamını hazırla (archiso container)
+        run: |
+          docker pull archlinux:base-devel
+          echo "Arch container hazır."
+
+      - name: ISO'yu archiso container içinde derle
+        run: |
+          docker run --privileged --rm \
+            -v "$PWD":/work -w /work \
+            archlinux:base-devel \
+            bash -lc '
+              set -e
+              pacman-key --init
+              pacman -Syu --noconfirm --needed archiso
+              cd archiso
+              mkdir -p ../output ../work
+              mkarchiso -v -w ../work -o ../output folklinux
+            '
+
+      - name: ISO adını doğrula
+        id: iso
+        run: |
+          ISO_FILE=$(find output -name "*.iso" -type f | head -n1)
+          if [[ -z "$ISO_FILE" ]]; then
+            echo "::error::ISO dosyası üretilemedi. Build loglarını kontrol et."
+            exit 1
+          fi
+          echo "file=$ISO_FILE" >> "$GITHUB_OUTPUT"
+          echo "ISO: $ISO_FILE"
+          ls -lh "$ISO_FILE"
+
+      - name: SHA512 doğrulama dosyası oluştur
+        run: |
+          cd output
+          sha512sum "$(basename "${{ steps.iso.outputs.file }}")" > "$(basename "${{ steps.iso.outputs.file }}").sha512"
+          cat *.sha512
+
+      - name: ISO'yu artifact olarak yükle
+        uses: actions/upload-artifact@v4
+        with:
+          name: folk-linux-iso-${{ github.run_number }}
+          path: |
+            output/*.iso
+            output/*.sha512
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Özet rapor
+        run: |
+          echo "## Folk Linux ISO Build ✓" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Run:** #${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **ISO:** $(basename "${{ steps.iso.outputs.file }}")" >> $GITHUB_STEP_SUMMARY
+          echo "- **Boyut:** $(du -h "${{ steps.iso.outputs.file }}" | cut -f1)" >> $GITHUB_STEP_SUMMARY

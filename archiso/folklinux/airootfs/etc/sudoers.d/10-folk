@@ -1,0 +1,5 @@
+# /etc/sudoers.d/10-folk — Folk Linux sudo yetkileri
+# Live ortamda folk kullanıcısı şifresiz sudo kullanabilir (ISO kurulum kolaylığı)
+# Kurulu sistemde Calamares bu dosyayı kaldırır / düzenler.
+
+folk ALL=(ALL:ALL) NOPASSWD: ALL

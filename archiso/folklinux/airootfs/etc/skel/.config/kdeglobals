@@ -1,0 +1,22 @@
+# KDEglobals — Folk Linux varsayılan tema ayarları
+# Bu dosya /etc/skel/.config/ içine konur, yeni kullanıcıya kopyalanır.
+
+[General]
+Name=folk
+
+[$Version]
+update_info=kauth_provider.upd,kded5rc.upd
+
+[Icons]
+Theme=papirus
+
+[Fonts]
+fixed="JetBrains Mono,10,-1,5,50,0,0,0,0,0"
+general="Noto Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+menuFont="Noto Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+
+[ColorScheme]
+Name=Breeze Dark
+
+[KDE]
+widgetStyle=Breeze

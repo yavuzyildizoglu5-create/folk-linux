@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Folk Linux Logo">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#0b0f19"/>
+    </linearGradient>
+    <linearGradient id="flame" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#86efac"/>
+    </linearGradient>
+    <linearGradient id="spark" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Zemin -->
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <rect x="8" y="8" width="496" height="496" rx="90" fill="none" stroke="#1f2937" stroke-width="4"/>
+
+  <!-- Alev / F monogramı -->
+  <path d="M196 104c28 18 40 48 34 82-5 30-24 52-24 52 22-8 38-24 46-44 10 28 6 60-12 84-20 27-54 42-90 42-66 0-112-48-112-112 0-52 34-96 84-108-8 22-4 44 12 56 4-42 26-66 62-52z"
+        fill="url(#flame)"/>
+  <path d="M258 196c14 10 20 26 18 44-3 20-16 34-16 34 12-4 22-12 27-24 6 18 3 38-8 52-12 16-34 24-56 24-40 0-68-30-68-68 0-30 20-58 50-64-4 14-2 26 8 34 2-26 16-40 45-32z"
+        fill="url(#spark)" opacity="0.92"/>
+
+  <!-- Alt yazı bandı -->
+  <rect x="96" y="398" width="320" height="2" fill="#374151"/>
+  <text x="256" y="452" text-anchor="middle" font-family="DejaVu Sans, sans-serif"
+        font-size="42" font-weight="700" letter-spacing="10" fill="#f9fafb">FOLK</text>
+  <text x="256" y="482" text-anchor="middle" font-family="DejaVu Sans, sans-serif"
+        font-size="18" font-weight="500" letter-spacing="8" fill="#9ca3af">LINUX</text>
+</svg>

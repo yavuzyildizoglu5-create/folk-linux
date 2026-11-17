@@ -1,0 +1,19 @@
+# Plasma duvar kağıdı ayarı — Folk Linux
+# /etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc
+# Bu dosya, yeni kullanıcı ilk giriş yaptığında Folk duvar kağıdını ayarlar.
+
+[ActionGroups][Add Groups][System Panels][Add Actions][Add Panel][applets][0][Configuration]
+
+[Containments][1]
+activityId=
+formfactor=0
+immutability=1
+lastScreen=0
+location=4
+plugin=org.kde.plasma.folder
+wallpaperplugin=org.kde.image
+
+[Containments][1][Wallpaper][org.kde.image][General]
+Image=/usr/share/backgrounds/folklinux/folklinux-default.svg
+SlideFilterMode=0
+FillMode=2

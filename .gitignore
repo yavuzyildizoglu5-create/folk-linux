@@ -1,0 +1,28 @@
+# Build çıktıları
+output/
+*.iso
+*.iso.sha512
+*.iso.sha256
+*.torrent
+
+# Archiso çalışma dizinleri
+work/
+*.log
+
+# Geçici dosyalar
+.tmp/
+tmp/
+*~
+*.swp
+.DS_Store
+
+# Editör / IDE
+.vscode/
+.idea/
+
+# WorkBuddy proje içi notları (public repo'ya gitmesin)
+.workbuddy-ai/
+
+# Python (yardımcı scriptler için)
+__pycache__/
+*.pyc
