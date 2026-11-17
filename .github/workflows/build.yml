@@ -35,26 +35,7 @@ jobs:
           docker run --privileged --rm \
             -v "$PWD":/work -w /work \
             archlinux:base-devel \
-            bash -lc '
-              set -e
-              pacman-key --init
-              pacman -Syu --noconfirm --needed archiso dosfstools mtools syslinux
-
-              # Profil dosyalarımız zaten güncel archiso formatında:
-              #   bootmodes = bios.syslinux + uefi-x64.systemd-boot.*
-              #   syslinux/ ve efiboot/ dizinleri mevcut.
-              # Derlemeden ÖNCE sözdizimini doğrula (erken hata yakalama).
-              PROFILE_DIR=archiso/folklinux
-              bash -n "$PROFILE_DIR/profiledef.sh" || { echo "HATA: profiledef.sh bozuk!"; exit 1; }
-              echo "✓ profiledef.sh sözdizimi geçerli"
-              grep -E '^(iso_name|install_dir|bootmodes)=' "$PROFILE_DIR/profiledef.sh"
-              echo "✓ boot dizinleri:"
-              find "$PROFILE_DIR/syslinux" "$PROFILE_DIR/efiboot" -type f
-
-              cd archiso
-              mkdir -p ../output ../work
-              mkarchiso -v -w ../work -o ../output folklinux
-            '
+            bash /work/scripts/iso-build-inside-docker.sh
 
       - name: ISO adını doğrula
         id: iso
