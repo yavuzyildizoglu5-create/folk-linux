@@ -23,7 +23,7 @@ amd-ucode
 
 # ── Ağ ──────────────────────────────────────────────────────────
 networkmanager
-networkmanager-applet
+network-manager-applet
 dhcpcd
 dnsutils
 curl
