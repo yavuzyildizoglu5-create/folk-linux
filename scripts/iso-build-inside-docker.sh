@@ -28,3 +28,17 @@ mkarchiso -v -w ../work -o ../output folklinux
 
 log "ISO tamamlandı."
 ls -lh ../output/
+
+# SHA512 doğrulama dosyasını container içinde (root olarak) oluştur.
+# Dışarıda (runner kullanıcısı) yazmaya çalışırsak Permission denied alınır.
+ISO_FILE=$(find ../output -maxdepth 1 -name '*.iso' -type f | head -n1)
+if [[ -z "$ISO_FILE" ]]; then
+    echo "HATA: ISO dosyası bulunamadı!" && exit 1
+fi
+log "SHA512 oluşturuluyor: $(basename "$ISO_FILE")"
+(cd ../output && sha512sum "$(basename "$ISO_FILE")" > "$(basename "$ISO_FILE").sha512")
+chmod 644 ../output/*
+
+log "✓ Çıktılar hazır:"
+ls -lh ../output/
+cat "../output/$(basename "$ISO_FILE").sha512"

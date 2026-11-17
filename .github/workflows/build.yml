@@ -49,12 +49,6 @@ jobs:
           echo "ISO: $ISO_FILE"
           ls -lh "$ISO_FILE"
 
-      - name: SHA512 doğrulama dosyası oluştur
-        run: |
-          cd output
-          sha512sum "$(basename "${{ steps.iso.outputs.file }}")" > "$(basename "${{ steps.iso.outputs.file }}").sha512"
-          cat *.sha512
-
       - name: ISO'yu artifact olarak yükle
         uses: actions/upload-artifact@v4
         with:
