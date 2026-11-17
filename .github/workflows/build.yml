@@ -40,27 +40,37 @@ jobs:
               pacman-key --init
               pacman -Syu --noconfirm --needed archiso dosfstools mtools syslinux
 
-              # Sürüme göre değişen boot modları için resmi releng profilini referans al.
-              # Kurulu archiso sürümünün bootmodes değerlerini ve gerekli boot
-              # dizinlerini otomatik senkronize et; böylece yeni sürümlerde kırılmaz.
+              # KURULU archiso sürümünün kendi releng profilini TEMEL AL.
+              # Boot modları sürümler arasında değiştiği için profiledef.sh'ı
+              # sıfırdan resmi dosyadan kopyalayıp SADECE skaler alanları sed ile
+              # değiştiriyoruz. Böylece hiçbir parentez/dizi bozulmaz.
               PROFILE_DIR=archiso/folklinux
               RELENG=/usr/share/archiso/configs/releng
-              if [[ -d "$RELENG" ]]; then
-                # bootmodes satırını resmi profilden birebir kopyala
-                BOOTMODE_LINE=$(grep '^bootmodes=' "$RELENG/profiledef.sh")
-                sed -i "s|^bootmodes=.*|$BOOTMODE_LINE|" "$PROFILE_DIR/profiledef.sh"
-                # Resmi boot config dosyalarını kopyala (syslinux / efiboot)
+              if [[ -f "$RELENG/profiledef.sh" ]]; then
+                cp "$RELENG/profiledef.sh" "$PROFILE_DIR/profiledef.sh"
+                sed -i \
+                  -e 's|^iso_name=.*|iso_name="folklinux"|' \
+                  -e 's|^iso_label=.*|iso_label="FOLKLINUX_$(date +%Y%m)"|' \
+                  -e 's|^iso_publisher=.*|iso_publisher="Folk Linux <https://github.com/yavuzyildizoglu5-create/folk-linux>"|' \
+                  -e 's|^iso_application=.*|iso_application="Folk Linux Live/Install Media"|' \
+                  -e 's|^install_dir=.*|install_dir="folk"|' \
+                  "$PROFILE_DIR/profiledef.sh"
+
+                # Resmi boot dosyalarını da kopyala (syslinux / efiboot)
                 for d in syslinux efiboot; do
                   if [[ -d "$RELENG/$d" ]]; then
                     rm -rf "$PROFILE_DIR/$d"
                     cp -r "$RELENG/$d" "$PROFILE_DIR/$d"
                   fi
                 done
-                echo "✓ Boot configs resmi releng profilinden senkronize edildi."
-                echo "  $BOOTMODE_LINE"
+                echo "✓ profiledef.sh + boot dosyaları kurulu archiso'nun releng profilinden alındı."
+                grep -E '^(iso_name|install_dir|bootmodes)=' "$PROFILE_DIR/profiledef.sh"
               else
-                echo "UYARI: releng profili bulunamadı, mevcut boot ayarları kullanılacak."
+                echo "HATA: resmi releng profili bulunamadı: $RELENG" && exit 1
               fi
+
+              # profiledef.sh sözdizimini derlemeden ÖNCE doğrula
+              bash -n "$PROFILE_DIR/profiledef.sh" || { echo "HATA: profiledef.sh bozuk!"; exit 1; }
 
               cd archiso
               mkdir -p ../output ../work
