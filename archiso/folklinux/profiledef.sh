@@ -8,7 +8,8 @@ iso_publisher="Folk Linux <https://github.com/folk-linux>"
 iso_application="Folk Linux Live/Install Media"
 iso_version="$(date +%Y.%m.%d)"
 install_dir="folk"
-bootmodes=('bios.syslinux.mbr' 'bios.syslinux.eltorito' 'uefi-x8664.efitools' 'uefi-ia32.efitools')
+# Güncel archiso boot modları (efitools kaldırıldı, systemd-boot kullanılıyor)
+bootmodes=('bios.syslinux' 'uefi-x64.systemd-boot.esp' 'uefi-x64.systemd-boot.eltorito')
 arch="x86_64"
 
 # Paket imzalarını doğrula

@@ -38,7 +38,30 @@ jobs:
             bash -lc '
               set -e
               pacman-key --init
-              pacman -Syu --noconfirm --needed archiso
+              pacman -Syu --noconfirm --needed archiso dosfstools mtools syslinux
+
+              # Sürüme göre değişen boot modları için resmi releng profilini referans al.
+              # Kurulu archiso sürümünün bootmodes değerlerini ve gerekli boot
+              # dizinlerini otomatik senkronize et; böylece yeni sürümlerde kırılmaz.
+              PROFILE_DIR=archiso/folklinux
+              RELENG=/usr/share/archiso/configs/releng
+              if [[ -d "$RELENG" ]]; then
+                # bootmodes satırını resmi profilden birebir kopyala
+                BOOTMODE_LINE=$(grep '^bootmodes=' "$RELENG/profiledef.sh")
+                sed -i "s|^bootmodes=.*|$BOOTMODE_LINE|" "$PROFILE_DIR/profiledef.sh"
+                # Resmi boot config dosyalarını kopyala (syslinux / efiboot)
+                for d in syslinux efiboot; do
+                  if [[ -d "$RELENG/$d" ]]; then
+                    rm -rf "$PROFILE_DIR/$d"
+                    cp -r "$RELENG/$d" "$PROFILE_DIR/$d"
+                  fi
+                done
+                echo "✓ Boot configs resmi releng profilinden senkronize edildi."
+                echo "  $BOOTMODE_LINE"
+              else
+                echo "UYARI: releng profili bulunamadı, mevcut boot ayarları kullanılacak."
+              fi
+
               cd archiso
               mkdir -p ../output ../work
               mkarchiso -v -w ../work -o ../output folklinux
