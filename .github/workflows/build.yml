@@ -1,16 +1,25 @@
 name: Folk Linux ISO Build
 
+# ISO DERLEMEK PARALI/ÜCRETLİ VE YAVAŞTIR (4 GB, ~8 dk).
+# Bu yüzden YALNIZCA manuel tetiklenir. Her push'ta derleme YAPILMAZ.
+# Günlük kontroller için "Folk Linux — Hızlı Doğrulama" workflow'u çalışır.
+#
+# ISO almak için: Actions > Folk Linux ISO Build > Run workflow
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
     inputs:
       edition:
         description: 'ISO sürüm etiketi'
         required: false
         default: 'rolling'
+      publish_release:
+        description: 'GitHub Release olarak yayınla (kalıcı indirme linki)'
+        type: boolean
+        required: false
+        default: true
+
+permissions:
+  contents: write
 
 env:
   PROFILE: folklinux
@@ -67,3 +76,25 @@ jobs:
           echo "- **Run:** #${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
           echo "- **ISO:** $(basename "${{ steps.iso.outputs.file }}")" >> $GITHUB_STEP_SUMMARY
           echo "- **Boyut:** $(du -h "${{ steps.iso.outputs.file }}" | cut -f1)" >> $GITHUB_STEP_SUMMARY
+
+      - name: GitHub Release olarak yayınla (kalıcı indirme linki)
+        if: ${{ inputs.publish_release }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          TAG="rolling-$(date +%Y%m%d-%H%M)"
+          ISO_FILE="${{ steps.iso.outputs.file }}"
+          NOTES="Folk Linux rolling ISO — $(date +%Y-%m-%d)
+
+          Commit: ${{ github.sha }}
+          Boyut: $(du -h "$ISO_FILE" | cut -f1)
+
+          İndirme: aşağıdaki Assets bölümünden .iso dosyasına tıkla."
+          gh release create "$TAG" "$ISO_FILE" "$ISO_FILE.sha512" \
+            --repo "${{ github.repository }}" \
+            --title "Folk Linux ISO — $(date +%Y.%m.%d)" \
+            --notes "$NOTES" \
+            --latest
+          echo "## Kalıcı indirme linki hazır" >> $GITHUB_STEP_SUMMARY
+          echo "https://github.com/${{ github.repository }}/releases/latest" >> $GITHUB_STEP_SUMMARY

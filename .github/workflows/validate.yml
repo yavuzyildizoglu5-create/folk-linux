@@ -1,0 +1,67 @@
+name: Folk Linux — Hızlı Doğrulama
+
+# Her push'ta çalışır. Saniyeler içinde biter. ISO DERLEMEZ.
+# Amaç: profildeki bir yazım hatasını derlemeye gerek kalmadan yakalamak.
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Depoyu çek
+        uses: actions/checkout@v4
+
+      - name: Bash script sözdizimi kontrolü
+        run: |
+          set -e
+          echo "Script'ler kontrol ediliyor..."
+          for f in build.sh scripts/*.sh \
+                   archiso/folklinux/profiledef.sh \
+                   archiso/folklinux/airootfs/root/.automated_script.sh \
+                   archiso/folklinux/airootfs/usr/local/bin/folk-install; do
+            bash -n "$f"
+            echo "  ✓ $f"
+          done
+
+      - name: Profil dosyaları kontrolü
+        run: bash scripts/validate.sh
+
+      - name: Boot dosyaları kontrolü
+        run: |
+          set -e
+          P=archiso/folklinux
+          for f in "$P/syslinux/syslinux.cfg" \
+                   "$P/efiboot/loader/loader.conf" \
+                   "$P/efiboot/loader/entries/01-folk-linux.conf"; do
+            test -s "$f" || { echo "EKSİK: $f"; exit 1; }
+            echo "  ✓ $f"
+          done
+          grep -q '^bootmodes=' "$P/profiledef.sh"
+          grep -q 'bios.syslinux' "$P/profiledef.sh"
+          grep -q 'systemd-boot' "$P/profiledef.sh"
+          echo "  ✓ bootmodes geçerli"
+
+      - name: Paket listesi kontrolü
+        run: |
+          set -e
+          echo "Paket sayısı: $(grep -v '^#' archiso/folklinux/packages.x86_64 | grep -vc '^$')"
+          # Boşluklu/yorum satırları dışında satır başına bir paket
+          grep -v '^#' archiso/folklinux/packages.x86_64 | grep -v '^$' | \
+            while IFS= read -r line; do
+              echo "$line" | grep -qE '^[a-zA-Z0-9_.+-]+[[:space:]]*(#.*)?$' || {
+                echo "GEÇERSİZ PAKET SATIRI: $line"; exit 1;
+              }
+            done
+          echo "  ✓ paket listesi biçimi geçerli"
+
+      - name: Özet
+        run: |
+          echo "## ✓ Folk Linux hızlı doğrulama geçti" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "ISO derlenmedi. ISO istemek için Actions > 'Folk Linux ISO Build' > Run workflow." >> $GITHUB_STEP_SUMMARY
