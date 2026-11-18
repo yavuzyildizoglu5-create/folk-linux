@@ -15,6 +15,9 @@ arch="x86_64"
 # Paket imzalarını doğrula
 pacman_conf="pacman.conf"
 
+# Sıkıştırma: zstd -19 (xz'den hızlı ve daha iyi oran) — ISO boyutunu ~%25 küçültür
+airootfs_image_tool_options=('-comp' 'zstd' '-Xcompression-level' '19' '-b' '1M')
+
 # Bootstrap paketleri (ISO'yu oluştururken kullanılır)
 bootstrap_packages=(
     base

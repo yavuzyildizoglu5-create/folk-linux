@@ -1,22 +1,13 @@
 name: Folk Linux ISO Build
 
-# ISO DERLEMEK PARALI/ÜCRETLİ VE YAVAŞTIR (4 GB, ~8 dk).
-# Bu yüzden YALNIZCA manuel tetiklenir. Her push'ta derleme YAPILMAZ.
-# Günlük kontroller için "Folk Linux — Hızlı Doğrulama" workflow'u çalışır.
+# ISO derlemesi ~8 dk sürer, bu yüzden YALNIZCA manuel tetiklenir.
+# Her push'ta sadece hızlı doğrulama çalışır (validate.yml, 10 sn).
+# ISO < 2 GB olduğu için GitHub Release olarak yayınlanır → KALICI İNDİRME LİNKİ.
 #
 # ISO almak için: Actions > Folk Linux ISO Build > Run workflow
+# Sonra: https://github.com/yavuzyildizoglu5-create/folk-linux/releases/latest
 on:
   workflow_dispatch:
-    inputs:
-      edition:
-        description: 'ISO sürüm etiketi'
-        required: false
-        default: 'rolling'
-      publish_release:
-        description: 'GitHub Release olarak yayınla (kalıcı indirme linki)'
-        type: boolean
-        required: false
-        default: true
 
 permissions:
   contents: write
@@ -77,24 +68,26 @@ jobs:
           echo "- **ISO:** $(basename "${{ steps.iso.outputs.file }}")" >> $GITHUB_STEP_SUMMARY
           echo "- **Boyut:** $(du -h "${{ steps.iso.outputs.file }}" | cut -f1)" >> $GITHUB_STEP_SUMMARY
 
-      - name: GitHub Release olarak yayınla (kalıcı indirme linki)
-        if: ${{ inputs.publish_release }}
+      - name: GitHub Release yayınla (kalıcı indirme linki)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -e
           TAG="rolling-$(date +%Y%m%d-%H%M)"
-          ISO_FILE="${{ steps.iso.outputs.file }}"
-          NOTES="Folk Linux rolling ISO — $(date +%Y-%m-%d)
-
-          Commit: ${{ github.sha }}
-          Boyut: $(du -h "$ISO_FILE" | cut -f1)
-
-          İndirme: aşağıdaki Assets bölümünden .iso dosyasına tıkla."
-          gh release create "$TAG" "$ISO_FILE" "$ISO_FILE.sha512" \
+          ISO="${{ steps.iso.outputs.file }}"
+          SHA="$ISO.sha512"
+          SIZE=$(stat -c %s "$ISO")
+          echo "ISO boyutu: $SIZE bayt"
+          if (( SIZE > 2000000000 )); then
+            echo "::warning::ISO 2 GB limitini aştı, Release'e konamıyor. Artifact olarak kaldı."
+            exit 0
+          fi
+          gh release create "$TAG" "$ISO" "$SHA" \
             --repo "${{ github.repository }}" \
             --title "Folk Linux ISO — $(date +%Y.%m.%d)" \
-            --notes "$NOTES" \
+            --notes "Folk Linux rolling ISO. .iso dosyasına tıklayarak indirin.
+
+          Commit: ${{ github.sha }} | Boyut: $(du -h "$ISO" | cut -f1)" \
             --latest
-          echo "## Kalıcı indirme linki hazır" >> $GITHUB_STEP_SUMMARY
+          echo "## ✓ Kalıcı indirme linki" >> $GITHUB_STEP_SUMMARY
           echo "https://github.com/${{ github.repository }}/releases/latest" >> $GITHUB_STEP_SUMMARY

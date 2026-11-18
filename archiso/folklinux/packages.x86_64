@@ -1,14 +1,11 @@
-# Folk Linux — x86_64 paket listesi (FAZ 1: minimal, stabil)
+# Folk Linux — x86_64 paket listesi (FAZ 1: minimal, kompakt)
 # Her satır bir pacman paketi. Yorum satırları ( # ) yoksayılır.
+# HEDEF: ISO < 2 GB (GitHub Release limiti) — gereksiz ağırlık yok.
 # Not: Yalnızca Resmi Arch depolarında (core/extra/multilib) bulunan paketler.
-#      AUR paketleri (calamares, neofetch vb.) Faz 2'de eklenecek.
-#      Oyun sürücüleri (nvidia) Faz 2'de eklenecek.
 
 # ── Çekirdek sistem ──────────────────────────────────────────────
 base
-base-devel
 linux
-linux-headers
 linux-firmware
 systemd
 systemd-sysvcompat
@@ -26,75 +23,54 @@ amd-ucode
 # ── Ağ ──────────────────────────────────────────────────────────
 networkmanager
 network-manager-applet
-dhcpcd
 dnsutils
 curl
 wget
 rsync
 
-# ── Depolama / dosya sistemleri ─────────────────────────────────
+# ── Depolama ────────────────────────────────────────────────────
 btrfs-progs
 xfsprogs
 ntfs-3g
 exfatprogs
 lvm2
 cryptsetup
-mdadm
 util-linux
 
-# ── Terminal / kabuk ────────────────────────────────────────────
+# ── Terminal ────────────────────────────────────────────────────
 bash
 zsh
-fish
-neovim
 nano
-tmux
-less
 man-db
-man-pages
 
-# ── KDE Plasma masaüstü ─────────────────────────────────────────
-# Not: 'plasma' meta paketi kaldırıldı. Bileşenleri doğrudan kuruyoruz.
+# ── KDE Plasma (yalnızca masaüstü, kde-applications YOK) ────────
 plasma-desktop
 plasma-workspace
-plasma-integration
 plasma-nm
 plasma-pa
-kde-applications-meta
 sddm
-sddm-kcm
 konsole
 dolphin
 kate
-okular
-gwenview
 spectacle
-kcalc
 
 # ── Ses ─────────────────────────────────────────────────────────
 pipewire
 pipewire-alsa
 pipewire-pulse
-pipewire-jack
 wireplumber
 alsa-utils
-sof-firmware
 
-# ── Grafik (açık kaynak, evrensel) ──────────────────────────────
+# ── Grafik (yalnızca açık kaynak evrensel sürücü) ───────────────
 mesa
 mesa-utils
-lib32-mesa
 xf86-video-amdgpu
 xf86-video-intel
-xf86-video-nouveau
 vulkan-icd-loader
-lib32-vulkan-icd-loader
 
 # ── Fontlar ─────────────────────────────────────────────────────
 ttf-dejavu
-ttf-liberation
 noto-fonts
-noto-fonts-cjk
 noto-fonts-emoji
 
 # ── Yardımcı araçlar ────────────────────────────────────────────
@@ -102,13 +78,8 @@ sudo
 archlinux-keyring
 gnupg
 git
-openssh
 htop
-btop
 fastfetch
-smartmontools
-nfs-utils
-cifs-utils
 fuse2
 unrar
 zip
@@ -116,12 +87,9 @@ unzip
 
 # ── Görünüm ─────────────────────────────────────────────────────
 breeze
-kvantum
 papirus-icon-theme
-plymouth
 
-# ── Faz 2'ye ertelenenler (AUR / özel repo gerekir) ─────────────
-# calamares      -> ISO'dan kurulum için Faz 1'de tekrar değerlendirilecek
-# nvidia         -> Faz 2 (oyun odaklı sürücü katmanı)
-# neofetch       -> Faz 2 (fastfetch zaten var)
-# squid          -> calamares ile birlikte
+# ── Faz 2'ye ertelenenler (ISO'yu büyütür / AUR gerekir) ────────
+# base-devel, linux-headers, kde-applications-meta, lib32-*, nvidia,
+# calamares, neofetch, plymouth, kvantum, sof-firmware, gnome uygulamaları
+# → Kurulum sonrası 'folk-install gaming' ile eklenir (bkz: GAMING-PLAN.md)
