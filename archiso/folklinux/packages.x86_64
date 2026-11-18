@@ -41,7 +41,6 @@ util-linux
 bash
 zsh
 nano
-man-db
 
 # ── KDE Plasma (yalnızca masaüstü, kde-applications YOK) ────────
 plasma-desktop
@@ -51,7 +50,6 @@ plasma-pa
 sddm
 konsole
 dolphin
-kate
 spectacle
 
 # ── Ses ─────────────────────────────────────────────────────────
@@ -63,7 +61,6 @@ alsa-utils
 
 # ── Grafik (yalnızca açık kaynak evrensel sürücü) ───────────────
 mesa
-mesa-utils
 xf86-video-amdgpu
 xf86-video-intel
 vulkan-icd-loader
@@ -71,7 +68,6 @@ vulkan-icd-loader
 # ── Fontlar ─────────────────────────────────────────────────────
 ttf-dejavu
 noto-fonts
-noto-fonts-emoji
 
 # ── Yardımcı araçlar ────────────────────────────────────────────
 sudo
@@ -80,14 +76,12 @@ gnupg
 git
 htop
 fastfetch
-fuse2
 unrar
 zip
 unzip
 
 # ── Görünüm ─────────────────────────────────────────────────────
 breeze
-papirus-icon-theme
 
 # ── Faz 2'ye ertelenenler (ISO'yu büyütür / AUR gerekir) ────────
 # base-devel, linux-headers, kde-applications-meta, lib32-*, nvidia,
